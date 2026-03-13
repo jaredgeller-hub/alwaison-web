@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alwaison â Give everyone their own professional assistant</title>
+  <meta name="description" content="Alwaison builds AI assistants powered by the Attention Engine â technology that knows what matters, when it matters, and surfaces it without being asked.">
+  <meta property="og:title" content="Alwaison â Professional AI Assistants">
+  <meta property="og:description" content="Give everyone their own professional assistant. Powered by the Attention Engine.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       RESET & TOKENS
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:               #080910;
+      --surface:          #0D0F1C;
+      --surface-2:        #131628;
+      --surface-hover:    #191D32;
+      --border:           rgba(255,255,255,0.07);
+      --border-soft:      rgba(255,255,255,0.04);
+      --border-hover:     rgba(255,255,255,0.14);
+      --text:             #EEF0FF;
+      --text-2:           #8890B8;
+      --text-3:           #454C6B;
+      --accent:           #4F6EFF;
+      --accent-hi:        #7B97FF;
+      --accent-glow:      rgba(79,110,255,0.18);
+      --accent-glow-lg:   rgba(79,110,255,0.32);
+      --gold:             #F0B432;
+      --gold-bg:          rgba(240,180,50,0.09);
+      --gold-border:      rgba(240,180,50,0.22);
+      --green:            #22C55E;
+      --red:              #EF4444;
+      --r:                12px;
+      --r-sm:             8px;
+      --r-lg:             20px;
+      --r-xl:             28px;
+      --nav-h:            72px;
+      --w:                1200px;
+      --font:             'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font-family: var(--font); }
+
+    /* Subtle noise overlay */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.55;
+    }
+
+    /* ============================================================
+       UTILITIES
+    ============================================================ */
+    .wrap {
+      width: 100%; max-width: var(--w);
+      margin: 0 auto; padding: 0 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11.5px; font-weight: 600;
+      letter-spacing: 0.11em; text-transform: uppercase;
+      color: var(--accent-hi);
+    }
+    .eyebrow::before {
+      content: ''; display: block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .h2 {
+      font-size: clamp(30px, 3.8vw, 50px);
+      font-weight: 700; line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .body-lg {
+      font-size: 17px; line-height: 1.72;
+      color: var(--text-2);
+    }
+
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: var(--r-sm);
+      font-size: 14.5px; font-weight: 600;
+      cursor: pointer; transition: all 0.18s ease;
+      border: none; white-space: nowrap;
+    }
+    .btn svg { transition: transform 0.2s; }
+
+    .btn-blue {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 0 1px var(--accent), 0 6px 24px rgba(79,110,255,0.28);
+    }
+    .btn-blue:hover {
+      background: var(--accent-hi);
+      box-shadow: 0 0 0 1px var(--accent-hi), 0 8px 36px rgba(79,110,255,0.44);
+      transform: translateY(-1px);
+    }
+    .btn-blue:hover svg { transform: translateX(3px); }
+
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border-hover);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .btn-ghost {
+      background: transparent; color: var(--text-2);
+      padding: 11px 0;
+    }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-ghost:hover svg { transform: translateX(4px); }
+
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 200;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav.stuck {
+      background: rgba(8,9,16,0.82);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex; align-items: center;
+      height: var(--nav-h); gap: 0;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 19px; font-weight: 700; letter-spacing: -0.03em;
+      flex-shrink: 0; margin-right: 40px;
+    }
+    .nav-mark {
+      width: 30px; height: 30px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 18px rgba(79,110,255,0.45);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2px;
+      list-style: none; flex: 1;
+    }
+    .nav-links a {
+      display: block; padding: 5px 13px;
+      font-size: 14px; font-weight: 500;
+      color: var(--text-2); border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover {
+      color: var(--text); background: rgba(255,255,255,0.05);
+    }
+
+    .nav-right {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-right .btn { padding: 8px 18px; font-size: 13.5px; }
+
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      padding-top: calc(var(--nav-h) + 88px);
+      padding-bottom: 96px;
+      overflow: hidden;
+    }
+
+    /* ambient radial glow */
+    .hero-glow {
+      position: absolute; top: -180px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 640px; pointer-events: none;
+      background: radial-gradient(ellipse, rgba(79,110,255,0.1) 0%, transparent 68%);
+    }
+
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 72px;
+    }
+
+    /* left column */
+    .hero-content { max-width: 540px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px 5px 8px;
+      background: var(--gold-bg); border: 1px solid var(--gold-border);
+      border-radius: 100px;
+      font-size: 12.5px; font-weight: 500; color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); box-shadow: 0 0 7px var(--gold);
+      flex-shrink: 0;
+    }
+
+    .hero-h1 {
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.03em; margin-bottom: 22px;
+    }
+    .hero-h1 em {
+      font-style: normal;
+      background: linear-gradient(140deg, var(--accent-hi) 20%, var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 17.5px; line-height: 1.72;
+      color: var(--text-2); margin-bottom: 38px;
+    }
+
+    .hero-btns {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .hero-caveat {
+      font-size: 12.5px; color: var(--text-3);
+    }
+
+    /* right column â card */
+    .hero-card-wrap { position: relative; }
+
+    .hero-float {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+      font-size: 12.5px; font-weight: 500;
+      color: var(--text-2); white-space: nowrap;
+      display: flex; align-items: center; gap: 7px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .hero-float-a {
+      top: -18px; right: -14px;
+      animation: floatA 4s ease-in-out infinite;
+    }
+    .hero-float-b {
+      bottom: 24px; left: -24px;
+      animation: floatB 4s ease-in-out infinite 2.1s;
+      color: var(--green);
+    }
+    @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+    @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 26px;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 10%, rgba(79,110,255,0.55) 50%, transparent 90%);
+    }
+
+    .card-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .card-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent-hi);
+    }
+    .card-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100%{ box-shadow: 0 0 0 0 rgba(79,110,255,0.7); }
+      55%{ box-shadow: 0 0 0 6px rgba(79,110,255,0); }
+    }
+    .card-time { font-size: 11.5px; color: var(--text-3); }
+
+    .signal {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 9px; cursor: default;
+      transition: border-color 0.2s;
+    }
+    .signal:last-child { margin-bottom: 0; }
+    .signal:hover { border-color: var(--border-hover); }
+
+    .signal-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .icon-blue  { background: rgba(79,110,255,0.14); }
+    .icon-gold  { background: rgba(240,180,50,0.12); }
+    .icon-green { background: rgba(34,197,94,0.12); }
+
+    .signal-title {
+      font-size: 13px; font-weight: 600;
+      color: var(--text); margin-bottom: 3px;
+    }
+    .signal-body {
+      font-size: 12.5px; color: var(--text-2); line-height: 1.5;
+    }
+    .signal-tag {
+      display: inline-block; margin-top: 7px;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .tag-r { background: rgba(239,68,68,0.12);  color: #F87171; }
+    .tag-y { background: rgba(234,179,8,0.12);  color: #FCD34D; }
+    .tag-g { background: rgba(34,197,94,0.12);  color: #4ADE80; }
+
+
+    /* ============================================================
+       TRUST BAR
+    ============================================================ */
+    .trust { padding: 36px 0; }
+    .trust-inner {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 36px 0;
+    }
+    .trust-label {
+      text-align: center; font-size: 11.5px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 24px;
+    }
+    .trust-logos {
+      display: flex; align-items: center;
+      justify-content: center; gap: 52px; flex-wrap: wrap;
+    }
+    .trust-logo {
+      font-size: 15.5px; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--text-3);
+      opacity: 0.55; transition: opacity 0.2s;
+    }
+    .trust-logo:hover { opacity: 0.85; }
+
+
+    /* ============================================================
+       ATTENTION ENGINE
+    ============================================================ */
+    .ae-section { padding: 116px 0; }
+
+    .ae-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 96px; align-items: center;
+    }
+
+    .ae-left .eyebrow  { margin-bottom: 18px; }
+    .ae-left .h2       { margin-bottom: 20px; }
+    .ae-left .body-lg  { margin-bottom: 44px; max-width: 480px; }
+
+    .pillars { display: flex; flex-direction: column; }
+
+    .pillar {
+      display: flex; gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: default;
+      transition: opacity 0.2s;
+    }
+    .pillar:first-child { border-top: 1px solid var(--border); }
+    .pillar:hover { opacity: 1 !important; }
+
+    .pillar-num {
+      font-size: 11.5px; font-weight: 700;
+      color: var(--text-3); letter-spacing: 0.06em;
+      padding-top: 3px; flex-shrink: 0; width: 22px;
+      transition: color 0.2s;
+    }
+    .pillar:hover .pillar-num { color: var(--accent-hi); }
+
+    .pillar-title {
+      font-size: 16px; font-weight: 600;
+      color: var(--text); margin-bottom: 7px;
+    }
+    .pillar-desc {
+      font-size: 14px; color: var(--text-2); line-height: 1.6;
+    }
+
+    /* Diagram */
+    .ae-diagram {
+      position: relative; display: flex;
+      align-items: center; justify-content: center;
+      height: 440px;
+    }
+
+    .orbit {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(79,110,255,0.1);
+      border-radius: 50%;
+    }
+    .o1 { width: 180px; height: 180px; }
+    .o2 { width: 310px; height: 310px; border-style: dashed; animation: spin 28s linear infinite; }
+    .o3 { width: 420px; height: 420px; animation: spin 50s linear infinite reverse; }
+
+    @keyframes spin {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+
+    .ae-core {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 90px; height: 90px;
+      background: var(--surface-2);
+      border: 1px solid rgba(79,110,255,0.35);
+      border-radius: 20px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      box-shadow: 0 0 50px rgba(79,110,255,0.14);
+      z-index: 2;
+    }
+    .ae-core-glyph {
+      font-size: 26px; line-height: 1;
+    }
+    .ae-core-lbl {
+      font-size: 8px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent-hi); text-align: center;
+      line-height: 1.3;
+    }
+
+    .ae-node {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 8px 13px;
+      font-size: 11.5px; font-weight: 600;
+      color: var(--text-2); white-space: nowrap;
+    }
+    .ae-node.lit {
+      border-color: rgba(79,110,255,0.38);
+      color: var(--accent-hi);
+      background: rgba(79,110,255,0.07);
+    }
+    /* Place nodes around the orbit */
+    .n1 { top:  3%; left: 50%; transform: translateX(-50%); }
+    .n2 { top: 22%; right: 0; }
+    .n3 { bottom: 22%; right: 0; }
+    .n4 { bottom:  3%; left: 50%; transform: translateX(-50%); }
+    .n5 { bottom: 22%; left: 0; }
+    .n6 { top: 22%; left: 0; }
+
+
+    /* ============================================================
+       PRODUCTS
+    ============================================================ */
+    .products-section {
+      padding: 116px 0;
+      background: linear-gradient(180deg, transparent, var(--surface) 15%, var(--surface) 85%, transparent);
+    }
+
+    .products-head { margin-bottom: 56px; }
+    .products-head .eyebrow { margin-bottom: 16px; }
+
+    .group-label {
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .group-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .pro-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 44px;
+    }
+
+    .pro-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 26px;
+      transition: border-color 0.2s, transform 0.22s;
+      cursor: default; position: relative; overflow: hidden;
+    }
+    .pro-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+    .pro-card.hero {
+      border-color: rgba(79,110,255,0.28);
+      background: linear-gradient(145deg, rgba(79,110,255,0.05) 0%, transparent 60%);
+    }
+    .pro-card.hero::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hi));
+    }
+    .pro-card.hero:hover {
+      border-color: rgba(79,110,255,0.5);
+      box-shadow: 0 8px 40px rgba(79,110,255,0.1);
+    }
+
+    .pro-status {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 5px;
+      margin-bottom: 18px;
+    }
+    .status-live { background: rgba(34,197,94,0.11); color: #4ADE80; }
+    .status-soon { background: rgba(255,255,255,0.05); color: var(--text-3); }
+
+    .pro-icon {
+      width: 42px; height: 42px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; margin-bottom: 14px;
+    }
+
+    .pro-name {
+      font-size: 19px; font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: 5px;
+    }
+    .pro-for {
+      font-size: 12.5px; font-weight: 500;
+      color: var(--accent-hi); margin-bottom: 10px;
+    }
+    .pro-desc {
+      font-size: 13.5px; color: var(--text-2);
+      line-height: 1.6; margin-bottom: 18px;
+    }
+    .pro-link {
+      font-size: 13.5px; font-weight: 600; color: var(--accent-hi);
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.2s;
+    }
+    .pro-card:hover .pro-link { gap: 10px; }
+    .pro-link.muted { color: var(--text-3); cursor: default; }
+
+    /* Admin cards */
+    .admin-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .admin-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 18px 22px;
+      display: flex; align-items: center; gap: 13px;
+      transition: border-color 0.15s;
+    }
+    .admin-card:hover { border-color: var(--border-hover); }
+    .admin-icon { font-size: 19px; flex-shrink: 0; }
+    .admin-name { font-size: 14.5px; font-weight: 600; }
+    .admin-sub  { font-size: 12px; color: var(--text-3); margin-top: 1px; }
+
+
+    /* ============================================================
+       CS AGENT SPOTLIGHT
+    ============================================================ */
+    .spotlight { padding: 116px 0; }
+
+    .spotlight-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 96px; align-items: center;
+    }
+
+    .spot-left .eyebrow { margin-bottom: 16px; }
+    .spot-left .h2      { margin-bottom: 18px; }
+    .spot-left .body-lg { margin-bottom: 40px; max-width: 480px; }
+
+    .spot-features {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 36px;
+    }
+    .spot-feat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 18px;
+    }
+    .spot-feat-icon { font-size: 20px; margin-bottom: 10px; }
+    .spot-feat-title {
+      font-size: 14.5px; font-weight: 600; margin-bottom: 5px;
+    }
+    .spot-feat-desc {
+      font-size: 13px; color: var(--text-2); line-height: 1.55;
+    }
+
+    .spot-btns { display: flex; align-items: center; gap: 18px; }
+
+    /* Dashboard mockup */
+    .dash {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+
+    .dash-bar {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .win-dots { display: flex; gap: 5px; }
+    .win-dot  { width: 9px; height: 9px; border-radius: 50%; }
+    .wd-r { background: #FF5F57; }
+    .wd-y { background: #FEBC2E; }
+    .wd-g { background: #28C840; }
+    .dash-title {
+      font-size: 12.5px; font-weight: 500;
+      color: var(--text-3); margin-left: 6px;
+    }
+
+    .dash-body { padding: 20px; }
+
+    .dash-greet { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .dash-sub   { font-size: 12.5px; color: var(--text-2); margin-bottom: 16px; }
+
+    .alert {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px; padding: 13px 15px; margin-bottom: 9px;
+    }
+    .alert.a-red  { border-left-color: var(--red); }
+    .alert.a-gold { border-left-color: var(--gold); }
+
+    .alert-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 5px;
+    }
+    .alert-t { font-size: 13px; font-weight: 600; }
+    .alert-ts { font-size: 11px; color: var(--text-3); flex-shrink: 0; margin-left: 8px; }
+    .alert-b { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
+
+    .dash-stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 9px; margin-top: 14px;
+    }
+    .stat {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px;
+      text-align: center;
+    }
+    .stat-v {
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .stat-l { font-size: 10.5px; color: var(--text-3); margin-top: 3px; }
+
+
+    /* ============================================================
+       WAITLIST
+    ============================================================ */
+    .waitlist-section { padding: 116px 0; }
+
+    .wl-card {
+      background: var(--surface);
+      border: 1px solid rgba(79,110,255,0.22);
+      border-radius: var(--r-xl);
+      padding: 72px 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .wl-card::before {
+      content: ''; position: absolute;
+      top: -60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 320px; pointer-events: none;
+      background: radial-gradient(ellipse, rgba(79,110,255,0.11) 0%, transparent 70%);
+    }
+
+    .wl-card .eyebrow { justify-content: center; margin-bottom: 22px; }
+    .wl-card .h2      { margin-bottom: 18px; }
+    .wl-card .body-lg { margin: 0 auto 44px; max-width: 460px; text-align: center; }
+
+    .wl-form {
+      display: flex; gap: 10px;
+      max-width: 420px; margin: 0 auto;
+    }
+    .wl-input {
+      flex: 1; padding: 12px 17px;
+      background: var(--bg);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--r-sm);
+      color: var(--text); font-family: var(--font);
+      font-size: 14.5px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .wl-input::placeholder { color: var(--text-3); }
+    .wl-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .wl-ok {
+      display: none; align-items: center; justify-content: center;
+      gap: 8px; font-size: 14.5px; font-weight: 600;
+      color: var(--green); margin-top: 16px;
+    }
+    .wl-note {
+      font-size: 12.5px; color: var(--text-3); margin-top: 14px;
+    }
+
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .site-footer {
+      padding: 56px 0 36px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 44px; margin-bottom: 52px;
+    }
+
+    .footer-logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 17px; font-weight: 700; letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .footer-mark {
+      width: 27px; height: 27px; border-radius: 7px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-tagline {
+      font-size: 13.5px; color: var(--text-2);
+      line-height: 1.65; max-width: 230px;
+    }
+
+    .fc-title {
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 14px;
+    }
+    .fc-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .fc-links a { font-size: 13.5px; color: var(--text-2); transition: color 0.15s; }
+    .fc-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      font-size: 12.5px; color: var(--text-3);
+    }
+    .footer-legal { display: flex; gap: 22px; }
+    .footer-legal a { color: var(--text-3); transition: color 0.15s; }
+    .footer-legal a:hover { color: var(--text-2); }
+
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1080px) {
+      .wrap { padding: 0 28px; }
+      .hero-inner, .ae-inner, .spotlight-inner {
+        grid-template-columns: 1fr; gap: 52px;
+      }
+      .hero-content { max-width: 100%; }
+      .ae-diagram { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .hero { padding-top: calc(var(--nav-h) + 52px); padding-bottom: 68px; }
+      .hero-float-a, .hero-float-b { display: none; }
+      .pro-grid, .admin-grid, .spot-features { grid-template-columns: 1fr; }
+      .wl-card { padding: 44px 28px; }
+      .wl-form { flex-direction: column; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+    }
+
+    /* ============================================================
+       SCROLL-IN ANIMATIONS
+    ============================================================ */
+    .fade-up {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+
+      <a href="/" class="nav-logo">
+        <div class="nav-mark">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="2.8" fill="white"/>
+            <circle cx="7"  cy="2"  r="1.4" fill="white" opacity="0.5"/>
+            <circle cx="12" cy="7"  r="1.4" fill="white" opacity="0.5"/>
+            <circle cx="7"  cy="12" r="1.4" fill="white" opacity="0.5"/>
+            <circle cx="2"  cy="7"  r="1.4" fill="white" opacity="0.5"/>
+          </svg>
+        </div>
+        Alwaison
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#platform">Platform</a></li>
+        <li><a href="#attention-engine">Attention Engine</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent â</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <a href="#waitlist" class="btn btn-outline">Join Waitlist</a>
+        <a href="https://cs-agent.app" class="btn btn-blue" target="_blank" rel="noopener">
+          Try CS Agent
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero" id="platform">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+
+      <!-- LEFT -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Powered by the Attention Engine
+        </div>
+
+        <h1 class="hero-h1">
+          Give everyone their own<br>
+          <em>professional assistant</em>
+        </h1>
+
+        <p class="hero-sub">
+          Alwaison builds AI assistants that know what matters, when it
+          matters, and surface it before you think to ask â so your entire
+          team can focus on doing, not searching.
+        </p>
+
+        <div class="hero-btns">
+          <a href="#waitlist" class="btn btn-blue">
+            Join the waitlist
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://cs-agent.app" class="btn btn-ghost" target="_blank" rel="noopener">
+            Try CS Agent â it's free
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="hero-caveat">CS Agent is live. Sales Agent, Renewals Agent &amp; more â coming soon.</p>
+      </div>
+
+      <!-- RIGHT â signal card -->
+      <div class="hero-card-wrap">
+        <div class="hero-float hero-float-a">
+          <div class="card-badge-dot"></div>
+          Attention Engine active
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-badge">
+              <div class="card-badge-dot"></div>
+              Your CS Agent
+            </div>
+            <span class="card-time">Today, 8:47 AM</span>
+          </div>
+
+          <div class="signal">
+            <div class="signal-icon icon-blue">â </div>
+            <div>
+              <div class="signal-title">Acme Corp â health score dropped</div>
+              <div class="signal-body">Usage down 40% over 14 days. Last QBR was 6 months ago. Renewal in 47 days.</div>
+              <div class="signal-tag tag-r">High priority</div>
+            </div>
+          </div>
+
+          <div class="signal">
+            <div class="signal-icon icon-gold">ð¡</div>
+            <div>
+              <div class="signal-title">Expansion opportunity â Meridian Group</div>
+              <div class="signal-body">3 new hires in the product org. They're using 2 of your 6 modules.</div>
+              <div class="signal-tag tag-y">Opportunity</div>
+            </div>
+          </div>
+
+          <div class="signal">
+            <div class="signal-icon icon-green">â</div>
+            <div>
+              <div class="signal-title">8 accounts are healthy</div>
+              <div class="signal-body">No action needed. Your assistant is watching.</div>
+              <div class="signal-tag tag-g">On track</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-float hero-float-b">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          3 signals surfaced this morning
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     TRUST BAR
+============================================================ -->
+<div class="trust">
+  <div class="wrap">
+    <div class="trust-inner">
+      <div class="trust-label">Trusted by customer teams at</div>
+      <div class="trust-logos">
+        <span class="trust-logo">Momentum</span>
+        <span class="trust-logo">Apex Systems</span>
+        <span class="trust-logo">Brightfield</span>
+        <span class="trust-logo">Virture</span>
+        <span class="trust-logo">Strata</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     ATTENTION ENGINE
+============================================================ -->
+<section class="ae-section" id="attention-engine">
+  <div class="wrap">
+    <div class="ae-inner">
+
+      <!-- LEFT -->
+      <div class="ae-left">
+        <div class="eyebrow">Core Technology</div>
+        <h2 class="h2">The Attention<br>Engine</h2>
+        <p class="body-lg">
+          Most tools demand your attention. The Attention Engine works the
+          other way â it learns what matters to you, monitors it continuously,
+          and delivers exactly what you need to act right when you need it.
+        </p>
+
+        <div class="pillars">
+          <div class="pillar fade-up">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-title">Knows what matters</div>
+              <div class="pillar-desc">Learns the signals relevant to your role, your accounts, and your goals â and filters out everything else.</div>
+            </div>
+          </div>
+          <div class="pillar fade-up">
+            <div class="pillar-num">02</div>
+            <div>
+              <div class="pillar-title">Knows when it matters</div>
+              <div class="pillar-desc">Timing is everything. The Attention Engine surfaces insights at the moment they're actionable â not before, not after.</div>
+            </div>
+          </div>
+          <div class="pillar fade-up">
+            <div class="pillar-num">03</div>
+            <div>
+              <div class="pillar-title">Surfaces without being asked</div>
+              <div class="pillar-desc">Proactive, not reactive. Your assistant brings information to you, so you focus on decisions â not discovery.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT â diagram -->
+      <div class="ae-diagram" aria-hidden="true">
+        <div class="orbit o1"></div>
+        <div class="orbit o2"></div>
+        <div class="orbit o3"></div>
+
+        <div class="ae-core">
+          <div class="ae-core-glyph">â</div>
+          <div class="ae-core-lbl">Attention<br>Engine</div>
+        </div>
+
+        <div class="ae-node lit n1">Health Score</div>
+        <div class="ae-node n2">Usage Trends</div>
+        <div class="ae-node lit n3">Renewal Date</div>
+        <div class="ae-node n4">Support Tickets</div>
+        <div class="ae-node lit n5">Sentiment</div>
+        <div class="ae-node n6">Stakeholders</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PRODUCTS
+============================================================ -->
+<section class="products-section" id="products">
+  <div class="wrap">
+
+    <div class="products-head">
+      <div class="eyebrow">Product Family</div>
+      <h2 class="h2" style="margin-top:16px;max-width:520px">
+        Assistants built for the people who keep businesses running
+      </h2>
+    </div>
+
+    <div class="group-label">Professional Assistants</div>
+
+    <div class="pro-grid">
+
+      <div class="pro-card hero fade-up">
+        <div class="pro-status status-live">â Live now</div>
+        <div class="pro-icon" style="background:rgba(79,110,255,0.13)">ð¯</div>
+        <div class="pro-name">CS Agent</div>
+        <div class="pro-for">For Customer Success Managers</div>
+        <div class="pro-desc">Monitors every account, surfaces risks before they escalate, and prepares you for every QBR â all before you start your day.</div>
+        <a href="https://cs-agent.app" class="pro-link" target="_blank" rel="noopener">
+          Visit CSAgent.app
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="pro-card fade-up">
+        <div class="pro-status status-soon">Coming soon</div>
+        <div class="pro-icon" style="background:rgba(34,197,94,0.08)">ð</div>
+        <div class="pro-name">Sales Agent</div>
+        <div class="pro-for">For Account Executives</div>
+        <div class="pro-desc">Researches prospects, tracks pipeline signals, and surfaces the right outreach at the right time â so your AEs close more, faster.</div>
+        <a href="#waitlist" class="pro-link muted">Notify me when live</a>
+      </div>
+
+      <div class="pro-card fade-up">
+        <div class="pro-status status-soon">Coming soon</div>
+        <div class="pro-icon" style="background:rgba(240,180,50,0.08)">ð</div>
+        <div class="pro-name">Renewals Agent</div>
+        <div class="pro-for">For Renewal &amp; Account Management</div>
+        <div class="pro-desc">Tracks every renewal, monitors risk indicators, and builds the case for expansion â months before the conversation happens.</div>
+        <a href="#waitlist" class="pro-link muted">Notify me when live</a>
+      </div>
+
+    </div>
+
+    <div class="group-label" style="margin-top:48px">Administrative Assistants</div>
+
+    <div class="admin-grid">
+      <div class="admin-card fade-up">
+        <div class="admin-icon">ð¦</div>
+        <div>
+          <div class="admin-name">Banking Administrator</div>
+          <div class="admin-sub">Operations Â· Coming soon</div>
+        </div>
+      </div>
+      <div class="admin-card fade-up">
+        <div class="admin-icon">ð</div>
+        <div>
+          <div class="admin-name">Government Administrator</div>
+          <div class="admin-sub">Operations Â· Coming soon</div>
+        </div>
+      </div>
+      <div class="admin-card fade-up">
+        <div class="admin-icon">ð</div>
+        <div>
+          <div class="admin-name">Education Administrator</div>
+          <div class="admin-sub">Operations Â· Coming soon</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     CS AGENT SPOTLIGHT
+============================================================ -->
+<section class="spotlight">
+  <div class="wrap">
+    <div class="spotlight-inner">
+
+      <!-- LEFT -->
+      <div class="spot-left">
+        <div class="eyebrow">Now Available</div>
+        <h2 class="h2">The assistant your CS team has always needed</h2>
+        <p class="body-lg">
+          CS Agent is built for Customer Success Managers who carry dozens of
+          accounts. It watches your portfolio continuously â so you never miss
+          a health signal, walh ento a QBR unprepared, or lose a renewal you
+          could have saved.
+        </p>
+
+        <div class="spot-features">
+          <div class="spot-feat fade-up">
+            <div class="spot-feat-icon">ð</div>
+            <div class="spot-feat-title">Portfolio Intelligence</div>
+            <div class="spot-feat-desc">Real-time health monitoring across every account, ranked by urgency.</div>
+          </div>
+          <div class="spot-feat fade-up">
+            <div class="spot-feat-icon">ð</div>
+            <div class="spot-feat-title">Proactive Alerts</div>
+            <div class="spot-feat-desc">Get notified about risks and opportunities before they become problems.</div>
+          </div>
+          <div class="spot-feat fade-up">
+            <div class="spot-feat-icon">ð</div>
+            <div class="spot-feat-title">QBR Prep</div>
+            <div class="spot-feat-desc">Fully prepared business reviews, generated from account data in seconds.</div>
+          </div>
+          <div class="spot-feat fade-up">
+            <div class="spot-feat-icon">ð¯</div>
+            <div class="spot-feat-title">Renewal Radar</div>
+            <div class="spot-feat-desc">Know which renewals are at risk months before the conversation.</div>
+          </div>
+        </div>
+
+        <div class="spot-btns">
+          <a href="https://cs-agent.app" class="btn btn-blue" target="_blank" rel="noopener">
+            Try CS Agent â free
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://cs-agent.app" class="btn btn-ghost" target="_blank" rel="noopener">
+            See how it works
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT â dashboard mockup -->
+      <div>
+        <div class="dash">
+          <div class="dash-bar">
+            <div class="win-dots">
+              <div class="win-dot wd-r"></div>
+              <div class="win-dot wd-y"></div>
+              <div class="win-dot wd-g"></div>
+            </div>
+            <div class="dash-title">CS Agent Â· Daily Briefing</div>
+          </div>
+
+          <div class="dash-body">
+            <div class="dash-greet">Good morning, Sarah â</div>
+            <div class="dash-sub">3 things need your attention today</div>
+
+            <div class="alert a-red">
+              <div class="alert-top">
+                <div class="alert-t">â  Globex Corp â churn risk elevated</div>
+                <div class="alert-ts">Just now</div>
+              </div>
+              <div class="alert-b">API usage dropped 60% last week. Executive sponsor departed last month. Renewal in 31 days.</div>
+            </div>
+
+            <div class="alert a-gold">
+              <div class="alert-top">
+                <div class="alert-t">â¦ Initech â expansion signal</div>
+                <div class="alert-ts">2h ago</div>
+              </div>
+              <div class="alert-b">Finance team just expanded from 12 to 28 people. Strong match for your enterprise tier.</div>
+            </div>
+
+            <div class="alert">
+              <div class="alert-top">
+                <div class="alert-t">ð QBR ready â Umbrella Corp</div>
+                <div class="alert-ts">5h ago</div>
+              </div>
+              <div class="alert-b">Deck prepared from Q3 usage data. Meeting is tomorrow at 2 PM.</div>
+            </div>
+
+            <div class="dash-stats">
+              <div class="stat">
+                <div class="stat-v" style="color:var(--green)">24</div>
+                <div class="stat-l">Healthy</div>
+              </div>
+              <div class="stat">
+                <div class="stat-v" style="color:var(--gold)">6</div>
+                <div class="stat-l">At risk</div>
+              </div>
+              <div class="stat">
+                <div class="stat-v" style="color:var(--red)">2</div>
+                <div class="stat-l">Critical</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     WAITLIST
+============================================================ -->
+<section class="waitlist-section" id="waitlist">
+  <div class="wrap">
+    <div class="wl-card">
+      <div class="eyebrow">Get Early Access</div>
+      <h2 class="h2">Be first in line</h2>
+      <p class="body-lg">
+        CS Agent is live and free to try. Join the waitlist to get early
+        access to Sales Agent, Renewals Agent, and everything coming next.
+      </p>
+
+      <form class="wl-form" id="wl-form" novalidate>
+        <input
+          type="email"
+          class="wl-input"
+          id="wl-email"
+          placeholder="your@company.com"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="btn btn-blue">Get early access</button>
+      </form>
+
+      <div class="wl-ok" id="wl-ok">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        You're on the list â we'll be in touch.
+      </div>
+
+      <p class="wl-note">No spam. Just a heads-up when new assistants go live.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <div class="wrap">
+
+    <div class="footer-grid">
+
+      <div>
+        <div class="footer-logo">
+          <div class="footer-mark">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <circle cx="6.5" cy="6.5" r="2.4" fill="white"/>
+              <circle cx="6.5" cy="1.5"  r="1.2" fill="white" opacity="0.5"/>
+              <circle cx="11.5" cy="6.5" r="1.2" fill="white" opacity="0.5"/>
+              <circle cx="6.5" cy="11.5" r="1.2" fill="white" opacity="0.5"/>
+              <circle cx="1.5" cy="6.5"  r="1.2" fill="white" opacity="0.5"/>
+            </svg>
+          </div>
+          Alwaison
+        </div>
+        <p class="footer-tagline">
+          Give everyone their own professional assistant. Powered by the Attention Engine.
+        </p>
+      </div>
+
+      <div>
+        <div class="fc-title">Products</div>
+        <ul class="fc-links">
+          <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent â</a></li>
+          <li><a href="#waitlist">Sales Agent</a></li>
+          <li><a href="#waitlist">Renewals Agent</a></li>
+          <li><a href="#waitlist">Administrative Suite</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="fc-title">Platform</div>
+        <ul class="fc-links">
+          <li><a href="#attention-engine">Attention Engine</a></li>
+          <li><a href="#products">Product Family</a></li>
+          <li><a href="#waitlist">Enterprise</a></li>
+          <li><a href="#waitlist">Security</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="fc-title">Company</div>
+        <ul class="fc-links">
+          <li><a href="#waitlist">About</a></li>
+          <li><a href="#waitlist">Blog</a></li>
+          <li><a href="#waitlist">Careers</a></li>
+          <li><a href="#waitlist">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>Â© 2026 Alwaison, Inc. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     JS
+============================================================ -->
+<script>
+  // Sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('stuck', window.scrollY > 24);
+  }, { passive: true });
+
+  // Waitlist form
+  const form = document.getElementById('wl-form');
+  const ok   = document.getElementById('wl-ok');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('wl-email').value.trim();
+    if (!email) return;
+    // TODO: wire to backend / mailing list
+    form.style.display = 'none';
+    ok.style.display = 'flex';
+  });
+
+  // Scroll-in animations
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
