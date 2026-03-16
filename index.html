@@ -812,16 +812,25 @@
       }
       .hero-content { max-width: 100%; }
       .ae-diagram { display: none; }
+      .hero-float-a, .hero-float-b { display: none; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
     }
 
     @media (max-width: 760px) {
+      .wrap { padding: 0 20px; }
       .nav-links { display: none; }
+      .nav-right .btn-outline { display: none; }
+      .nav-right .btn-blue { padding: 8px 14px; font-size: 13px; }
       .hero { padding-top: calc(var(--nav-h) + 52px); padding-bottom: 68px; }
-      .hero-float-a, .hero-float-b { display: none; }
+      .hero-h1 { font-size: 32px; }
+      .hero-sub { font-size: 15px; }
+      .hero-card-wrap { width: 100%; }
+      .card { padding: 18px; }
       .pro-grid, .admin-grid, .spot-features { grid-template-columns: 1fr; }
-      .wl-card { padding: 44px 28px; }
+      .ae-section, .products-section, .spotlight, .waitlist-section { padding: 72px 0; }
+      .wl-card { padding: 44px 20px; }
       .wl-form { flex-direction: column; }
+      .wl-input { width: 100%; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
     }
