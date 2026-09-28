@@ -363,32 +363,6 @@
 
 
     /* ============================================================
-       TRUST BAR
-    ============================================================ */
-    .trust { padding: 36px 0; }
-    .trust-inner {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 36px 0;
-    }
-    .trust-label {
-      text-align: center; font-size: 11.5px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-3); margin-bottom: 24px;
-    }
-    .trust-logos {
-      display: flex; align-items: center;
-      justify-content: center; gap: 52px; flex-wrap: wrap;
-    }
-    .trust-logo {
-      font-size: 15.5px; font-weight: 700;
-      letter-spacing: -0.02em; color: var(--text-3);
-      opacity: 0.55; transition: opacity 0.2s;
-    }
-    .trust-logo:hover { opacity: 0.85; }
-
-
-    /* ============================================================
        ATTENTION ENGINE
     ============================================================ */
     .ae-section { padding: 116px 0; }
@@ -723,31 +697,6 @@
     .wl-card .eyebrow { justify-content: center; margin-bottom: 22px; }
     .wl-card .h2      { margin-bottom: 18px; }
     .wl-card .body-lg { margin: 0 auto 44px; max-width: 460px; text-align: center; }
-
-    .wl-form {
-      display: flex; gap: 10px;
-      max-width: 420px; margin: 0 auto;
-    }
-    .wl-input {
-      flex: 1; padding: 12px 17px;
-      background: var(--bg);
-      border: 1px solid var(--border-hover);
-      border-radius: var(--r-sm);
-      color: var(--text); font-family: var(--font);
-      font-size: 14.5px; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .wl-input::placeholder { color: var(--text-3); }
-    .wl-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
-
-    .wl-ok {
-      display: none; align-items: center; justify-content: center;
-      gap: 8px; font-size: 14.5px; font-weight: 600;
-      color: var(--green); margin-top: 16px;
-    }
     .wl-note {
       font-size: 12.5px; color: var(--text-3); margin-top: 14px;
     }
@@ -789,6 +738,7 @@
     .fc-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
     .fc-links a { font-size: 13.5px; color: var(--text-2); transition: color 0.15s; }
     .fc-links a:hover { color: var(--text); }
+    .fc-links span { font-size: 13.5px; color: var(--text-3); }
 
     .footer-bottom {
       display: flex; align-items: center;
@@ -829,8 +779,6 @@
       .pro-grid, .admin-grid, .spot-features { grid-template-columns: 1fr; }
       .ae-section, .products-section, .spotlight, .waitlist-section { padding: 72px 0; }
       .wl-card { padding: 44px 20px; }
-      .wl-form { flex-direction: column; }
-      .wl-input { width: 100%; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
     }
@@ -875,9 +823,9 @@
       </ul>
 
       <div class="nav-right">
-        <a href="#waitlist" class="btn btn-outline">Join Waitlist</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Join Waitlist</a>
         <a href="https://cs-agent.app" class="btn btn-blue" target="_blank" rel="noopener">
-          Try CS Agent
+          See CS Agent
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -914,13 +862,13 @@
         </p>
 
         <div class="hero-btns">
-          <a href="#waitlist" class="btn btn-blue">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
             Join the waitlist
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
 
-        <p class="hero-caveat">CS Agent is live. Sales Agent, Renewals Agent &amp; more — coming soon.</p>
+        <p class="hero-caveat">CS Agent waitlist is open. Sales Agent, Renewals Agent and more coming soon.</p>
       </div>
 
       <!-- RIGHT — signal card -->
@@ -942,7 +890,7 @@
           <div class="signal">
             <div class="signal-icon icon-blue">⚠</div>
             <div>
-              <div class="signal-title">Acme Corp — health score dropped</div>
+              <div class="signal-title">Northgate Logistics — health score dropped</div>
               <div class="signal-body">Usage down 40% over 14 days. Last QBR was 6 months ago. Renewal in 47 days.</div>
               <div class="signal-tag tag-r">High priority</div>
             </div>
@@ -951,7 +899,7 @@
           <div class="signal">
             <div class="signal-icon icon-gold">💡</div>
             <div>
-              <div class="signal-title">Expansion opportunity — Meridian Group</div>
+              <div class="signal-title">Expansion opportunity — Meridian Health</div>
               <div class="signal-body">3 new hires in the product org. They're using 2 of your 6 modules.</div>
               <div class="signal-tag tag-y">Opportunity</div>
             </div>
@@ -976,25 +924,6 @@
     </div>
   </div>
 </section>
-
-
-<!-- ============================================================
-     TRUST BAR
-============================================================ -->
-<div class="trust">
-  <div class="wrap">
-    <div class="trust-inner">
-      <div class="trust-label">Trusted by customer teams at</div>
-      <div class="trust-logos">
-        <span class="trust-logo">Momentum</span>
-        <span class="trust-logo">Apex Systems</span>
-        <span class="trust-logo">Brightfield</span>
-        <span class="trust-logo">Virture</span>
-        <span class="trust-logo">Strata</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!-- ============================================================
@@ -1081,7 +1010,7 @@
     <div class="pro-grid">
 
       <div class="pro-card hero fade-up">
-        <div class="pro-status status-live">● Live now</div>
+        <div class="pro-status status-live">● Waitlist open</div>
         <div class="pro-icon" style="background:rgba(79,110,255,0.13)">🎯</div>
         <div class="pro-name">CS Agent</div>
         <div class="pro-for">For Customer Success Managers</div>
@@ -1098,7 +1027,7 @@
         <div class="pro-name">Sales Agent</div>
         <div class="pro-for">For Account Executives</div>
         <div class="pro-desc">Researches prospects, tracks pipeline signals, and surfaces the right outreach at the right time — so your AEs close more, faster.</div>
-        <a href="#waitlist" class="pro-link muted">Notify me when live</a>
+        <span class="pro-link muted">Coming soon</span>
       </div>
 
       <div class="pro-card fade-up">
@@ -1107,7 +1036,7 @@
         <div class="pro-name">Renewals Agent</div>
         <div class="pro-for">For Renewal &amp; Account Management</div>
         <div class="pro-desc">Tracks every renewal, monitors risk indicators, and builds the case for expansion — months before the conversation happens.</div>
-        <a href="#waitlist" class="pro-link muted">Notify me when live</a>
+        <span class="pro-link muted">Coming soon</span>
       </div>
 
     </div>
@@ -1209,7 +1138,7 @@
 
             <div class="alert a-red">
               <div class="alert-top">
-                <div class="alert-t">⚠ Globex Corp — churn risk elevated</div>
+                <div class="alert-t">⚠ Northgate Logistics — churn risk elevated</div>
                 <div class="alert-ts">Just now</div>
               </div>
               <div class="alert-b">API usage dropped 60% last week. Executive sponsor departed last month. Renewal in 31 days.</div>
@@ -1217,7 +1146,7 @@
 
             <div class="alert a-gold">
               <div class="alert-top">
-                <div class="alert-t">✦ Initech — expansion signal</div>
+                <div class="alert-t">✦ Beacon Financial — expansion signal</div>
                 <div class="alert-ts">2h ago</div>
               </div>
               <div class="alert-b">Finance team just expanded from 12 to 28 people. Strong match for your enterprise tier.</div>
@@ -1225,7 +1154,7 @@
 
             <div class="alert">
               <div class="alert-top">
-                <div class="alert-t">📋 QBR ready — Umbrella Corp</div>
+                <div class="alert-t">📋 QBR ready — Pinnacle Group</div>
                 <div class="alert-ts">5h ago</div>
               </div>
               <div class="alert-b">Deck prepared from Q3 usage data. Meeting is tomorrow at 2 PM.</div>
@@ -1263,28 +1192,14 @@
       <div class="eyebrow">Get Early Access</div>
       <h2 class="h2">Be first in line</h2>
       <p class="body-lg">
-        CS Agent is live and free to try. Join the waitlist to get early
-        access to Sales Agent, Renewals Agent, and everything coming next.
+        CS Agent is opening to early users. Join the waitlist and we'll
+        reach out as spots open.
       </p>
 
-      <form class="wl-form" id="wl-form" novalidate>
-        <input
-          type="email"
-          class="wl-input"
-          id="wl-email"
-          placeholder="your@company.com"
-          required
-          autocomplete="email"
-        >
-        <button type="submit" class="btn btn-blue">Get early access</button>
-      </form>
-
-      <div class="wl-ok" id="wl-ok">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        You're on the list — we'll be in touch.
-      </div>
-
-      <p class="wl-note">No spam. Just a heads-up when new assistants go live.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+        Join the CS Agent waitlist
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
       <p class="wl-note" style="margin-top:8px;">Questions? Reach us at <a href="mailto:hello@alwaison.com" style="color:var(--text-2);text-decoration:underline;">hello@alwaison.com</a></p>
     </div>
   </div>
@@ -1321,9 +1236,9 @@
         <div class="fc-title">Products</div>
         <ul class="fc-links">
           <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent ↗</a></li>
-          <li><a href="#waitlist">Sales Agent</a></li>
-          <li><a href="#waitlist">Renewals Agent</a></li>
-          <li><a href="#waitlist">Administrative Suite</a></li>
+          <li><span>Sales Agent</span></li>
+          <li><span>Renewals Agent</span></li>
+          <li><span>Administrative Suite</span></li>
         </ul>
       </div>
 
@@ -1332,17 +1247,12 @@
         <ul class="fc-links">
           <li><a href="#attention-engine">Attention Engine</a></li>
           <li><a href="#products">Product Family</a></li>
-          <li><a href="#waitlist">Enterprise</a></li>
-          <li><a href="#waitlist">Security</a></li>
         </ul>
       </div>
 
       <div>
         <div class="fc-title">Company</div>
         <ul class="fc-links">
-          <li><a href="#waitlist">About</a></li>
-          <li><a href="#waitlist">Blog</a></li>
-          <li><a href="#waitlist">Careers</a></li>
           <li><a href="mailto:hello@alwaison.com">Contact</a></li>
         </ul>
       </div>
@@ -1352,9 +1262,8 @@
     <div class="footer-bottom">
       <span>© 2026 Alwaison, Inc. All rights reserved.</span>
       <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Security</a>
+        <a href="https://cs-agent.app/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <a href="https://cs-agent.app/terms" target="_blank" rel="noopener noreferrer">Terms</a>
       </div>
     </div>
 
@@ -1371,22 +1280,6 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('stuck', window.scrollY > 24);
   }, { passive: true });
-
-  // Waitlist form
-  const form = document.getElementById('wl-form');
-  const ok   = document.getElementById('wl-ok');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const email = document.getElementById('wl-email').value.trim();
-    if (!email) return;
-    window.open(
-      'mailto:hello@alwaison.com'
-      + '?subject=' + encodeURIComponent('Waitlist Request')
-      + '&body=' + encodeURIComponent('Please add me to the Alwaison waitlist.\n\nEmail: ' + email)
-    );
-    form.style.display = 'none';
-    ok.style.display = 'flex';
-  });
 
   // Scroll-in animations
   const io = new IntersectionObserver(entries => {
