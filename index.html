@@ -26,9 +26,11 @@
       --border-hover:     rgba(255,255,255,0.14);
       --text:             #EEF0FF;
       --text-2:           #8890B8;
-      --text-3:           #454C6B;
+      --text-3:           #8088A8;
       --accent:           #4F6EFF;
       --accent-hi:        #7B97FF;
+      --accent-btn:       #3D5AF1;
+      --accent-btn-hover: #4A66F5;
       --accent-glow:      rgba(79,110,255,0.18);
       --accent-glow-lg:   rgba(79,110,255,0.32);
       --gold:             #F0B432;
@@ -116,11 +118,11 @@
     .btn svg { transition: transform 0.2s; }
 
     .btn-blue {
-      background: var(--accent); color: #fff;
+      background: var(--accent-btn); color: #fff;
       box-shadow: 0 0 0 1px var(--accent), 0 6px 24px rgba(79,110,255,0.28);
     }
     .btn-blue:hover {
-      background: var(--accent-hi);
+      background: var(--accent-btn-hover);
       box-shadow: 0 0 0 1px var(--accent-hi), 0 8px 36px rgba(79,110,255,0.44);
       transform: translateY(-1px);
     }
