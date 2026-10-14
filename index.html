@@ -26,9 +26,11 @@
       --border-hover:     rgba(255,255,255,0.14);
       --text:             #EEF0FF;
       --text-2:           #8890B8;
-      --text-3:           #454C6B;
+      --text-3:           #8088A8;
       --accent:           #4F6EFF;
       --accent-hi:        #7B97FF;
+      --accent-btn:       #3D5AF1;
+      --accent-btn-hover: #4A66F5;
       --accent-glow:      rgba(79,110,255,0.18);
       --accent-glow-lg:   rgba(79,110,255,0.32);
       --gold:             #F0B432;
@@ -60,6 +62,36 @@
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
     button { font-family: var(--font); }
+
+    /* Visually hidden, still read by screen readers */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Off-screen until focused, then pinned top-left above the fixed nav */
+    .skip-link {
+      position: absolute; top: 12px; left: 12px;
+      z-index: 300;
+      transform: translateY(-200%);
+      padding: 9px 16px; border-radius: var(--r-sm);
+      background: var(--surface-2); color: var(--text);
+      font-size: 14px; font-weight: 600;
+    }
+    .skip-link:focus { transform: none; }
+
+    a:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible,
+    .skip-link:focus {
+      outline: 2px solid var(--accent-hi);
+      outline-offset: 2px;
+    }
 
     /* Subtle noise overlay */
     body::after {
@@ -116,11 +148,11 @@
     .btn svg { transition: transform 0.2s; }
 
     .btn-blue {
-      background: var(--accent); color: #fff;
+      background: var(--accent-btn); color: #fff;
       box-shadow: 0 0 0 1px var(--accent), 0 6px 24px rgba(79,110,255,0.28);
     }
     .btn-blue:hover {
-      background: var(--accent-hi);
+      background: var(--accent-btn-hover);
       box-shadow: 0 0 0 1px var(--accent-hi), 0 8px 36px rgba(79,110,255,0.44);
       transform: translateY(-1px);
     }
@@ -278,11 +310,11 @@
     }
     .hero-float-a {
       top: -18px; right: -14px;
-      animation: floatA 4s ease-in-out infinite;
+      animation: floatA 4s ease-in-out 1;
     }
     .hero-float-b {
       bottom: 24px; left: -24px;
-      animation: floatB 4s ease-in-out infinite 2.1s;
+      animation: floatB 4s ease-in-out 1 1s;
       color: var(--green);
     }
     @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
@@ -315,7 +347,7 @@
     .card-badge-dot {
       width: 5px; height: 5px; border-radius: 50%;
       background: var(--accent);
-      animation: pulse 2.2s ease-in-out infinite;
+      animation: pulse 2.2s ease-in-out 2;
     }
     @keyframes pulse {
       0%,100%{ box-shadow: 0 0 0 0 rgba(79,110,255,0.7); }
@@ -418,13 +450,8 @@
       border-radius: 50%;
     }
     .o1 { width: 180px; height: 180px; }
-    .o2 { width: 310px; height: 310px; border-style: dashed; animation: spin 28s linear infinite; }
-    .o3 { width: 420px; height: 420px; animation: spin 50s linear infinite reverse; }
-
-    @keyframes spin {
-      from { transform: translate(-50%,-50%) rotate(0deg); }
-      to   { transform: translate(-50%,-50%) rotate(360deg); }
-    }
+    .o2 { width: 310px; height: 310px; border-style: dashed; }
+    .o3 { width: 420px; height: 420px; }
 
     .ae-core {
       position: absolute; top: 50%; left: 50%;
@@ -791,20 +818,34 @@
       transition: opacity 0.55s ease, transform 0.55s ease;
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .fade-up { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ============================================================
      NAV
 ============================================================ -->
+<header>
 <nav id="nav">
   <div class="wrap">
     <div class="nav-inner">
 
       <a href="/" class="nav-logo">
         <div class="nav-mark">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <circle cx="7" cy="7" r="2.8" fill="white"/>
             <circle cx="7"  cy="2"  r="1.4" fill="white" opacity="0.5"/>
             <circle cx="12" cy="7"  r="1.4" fill="white" opacity="0.5"/>
@@ -819,25 +860,28 @@
         <li><a href="#platform">Platform</a></li>
         <li><a href="#attention-engine">Attention Engine</a></li>
         <li><a href="#products">Products</a></li>
-        <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent ↗</a></li>
+        <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new tab)</span></a></li>
       </ul>
 
       <div class="nav-right">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Join Waitlist</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Join Waitlist<span class="sr-only"> (opens in new tab)</span></a>
         <a href="https://cs-agent.app" class="btn btn-blue" target="_blank" rel="noopener">
           See CS Agent
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sr-only"> (opens in new tab)</span>
         </a>
       </div>
 
     </div>
   </div>
 </nav>
+</header>
 
 
 <!-- ============================================================
      HERO
 ============================================================ -->
+<main id="main">
 <section class="hero" id="platform">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
@@ -864,7 +908,8 @@
         <div class="hero-btns">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
             Join the waitlist
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="sr-only"> (opens in new tab)</span>
           </a>
         </div>
 
@@ -873,12 +918,12 @@
 
       <!-- RIGHT — signal card -->
       <div class="hero-card-wrap">
-        <div class="hero-float hero-float-a">
+        <div class="hero-float hero-float-a" aria-hidden="true">
           <div class="card-badge-dot"></div>
           Attention Engine active
         </div>
 
-        <div class="card">
+        <div class="card" role="img" aria-label="Example CS Agent signal card showing account health alerts">
           <div class="card-header">
             <div class="card-badge">
               <div class="card-badge-dot"></div>
@@ -915,8 +960,8 @@
           </div>
         </div>
 
-        <div class="hero-float hero-float-b">
-          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+        <div class="hero-float hero-float-b" aria-hidden="true">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><circle cx="4" cy="4" r="4"/></svg>
           3 signals surfaced this morning
         </div>
       </div>
@@ -947,21 +992,21 @@
           <div class="pillar fade-up">
             <div class="pillar-num">01</div>
             <div>
-              <div class="pillar-title">Knows what matters</div>
+              <h3 class="pillar-title">Knows what matters</h3>
               <div class="pillar-desc">Learns the signals relevant to your role, your accounts, and your goals — and filters out everything else.</div>
             </div>
           </div>
           <div class="pillar fade-up">
             <div class="pillar-num">02</div>
             <div>
-              <div class="pillar-title">Knows when it matters</div>
+              <h3 class="pillar-title">Knows when it matters</h3>
               <div class="pillar-desc">Timing is everything. The Attention Engine surfaces insights at the moment they're actionable — not before, not after.</div>
             </div>
           </div>
           <div class="pillar fade-up">
             <div class="pillar-num">03</div>
             <div>
-              <div class="pillar-title">Surfaces without being asked</div>
+              <h3 class="pillar-title">Surfaces without being asked</h3>
               <div class="pillar-desc">Proactive, not reactive. Your assistant brings information to you, so you focus on decisions — not discovery.</div>
             </div>
           </div>
@@ -1010,29 +1055,30 @@
     <div class="pro-grid">
 
       <div class="pro-card hero fade-up">
-        <div class="pro-status status-live">● Waitlist open</div>
-        <div class="pro-icon" style="background:rgba(79,110,255,0.13)">🎯</div>
-        <div class="pro-name">CS Agent</div>
+        <div class="pro-status status-live"><span><span aria-hidden="true">●</span> Waitlist open</span></div>
+        <div class="pro-icon" style="background:rgba(79,110,255,0.13)"><span aria-hidden="true">🎯</span></div>
+        <h3 class="pro-name">CS Agent</h3>
         <div class="pro-for">For Customer Success Managers</div>
         <div class="pro-desc">Monitors every account, surfaces risks before they escalate, and prepares you for every QBR — all before you start your day.</div>
         <a href="https://cs-agent.app" class="pro-link" target="_blank" rel="noopener">
           Visit CSAgent.app
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sr-only"> (opens in new tab)</span>
         </a>
       </div>
 
       <div class="pro-card fade-up">
         <div class="pro-status status-soon">Coming soon</div>
-        <div class="pro-icon" style="background:rgba(34,197,94,0.08)">📈</div>
-        <div class="pro-name">Sales Agent</div>
+        <div class="pro-icon" style="background:rgba(34,197,94,0.08)"><span aria-hidden="true">📈</span></div>
+        <h3 class="pro-name">Sales Agent</h3>
         <div class="pro-for">For Account Executives</div>
         <div class="pro-desc">Researches prospects, tracks pipeline signals, and surfaces the right outreach at the right time — so your AEs close more, faster.</div>
       </div>
 
       <div class="pro-card fade-up">
         <div class="pro-status status-soon">Coming soon</div>
-        <div class="pro-icon" style="background:rgba(240,180,50,0.08)">🔄</div>
-        <div class="pro-name">Renewals Agent</div>
+        <div class="pro-icon" style="background:rgba(240,180,50,0.08)"><span aria-hidden="true">🔄</span></div>
+        <h3 class="pro-name">Renewals Agent</h3>
         <div class="pro-for">For Renewal &amp; Account Management</div>
         <div class="pro-desc">Tracks every renewal, monitors risk indicators, and builds the case for expansion — months before the conversation happens.</div>
       </div>
@@ -1043,21 +1089,21 @@
 
     <div class="admin-grid">
       <div class="admin-card fade-up">
-        <div class="admin-icon">🏦</div>
+        <div class="admin-icon"><span aria-hidden="true">🏦</span></div>
         <div>
           <div class="admin-name">Banking Administrator</div>
           <div class="admin-sub">Operations · Coming soon</div>
         </div>
       </div>
       <div class="admin-card fade-up">
-        <div class="admin-icon">🏛</div>
+        <div class="admin-icon"><span aria-hidden="true">🏛</span></div>
         <div>
           <div class="admin-name">Government Administrator</div>
           <div class="admin-sub">Operations · Coming soon</div>
         </div>
       </div>
       <div class="admin-card fade-up">
-        <div class="admin-icon">🎓</div>
+        <div class="admin-icon"><span aria-hidden="true">🎓</span></div>
         <div>
           <div class="admin-name">Education Administrator</div>
           <div class="admin-sub">Operations · Coming soon</div>
@@ -1089,23 +1135,23 @@
 
         <div class="spot-features">
           <div class="spot-feat fade-up">
-            <div class="spot-feat-icon">📊</div>
-            <div class="spot-feat-title">Portfolio Intelligence</div>
+            <div class="spot-feat-icon"><span aria-hidden="true">📊</span></div>
+            <h3 class="spot-feat-title">Portfolio Intelligence</h3>
             <div class="spot-feat-desc">Real-time health monitoring across every account, ranked by urgency.</div>
           </div>
           <div class="spot-feat fade-up">
-            <div class="spot-feat-icon">🔔</div>
-            <div class="spot-feat-title">Proactive Alerts</div>
+            <div class="spot-feat-icon"><span aria-hidden="true">🔔</span></div>
+            <h3 class="spot-feat-title">Proactive Alerts</h3>
             <div class="spot-feat-desc">Get notified about risks and opportunities before they become problems.</div>
           </div>
           <div class="spot-feat fade-up">
-            <div class="spot-feat-icon">📋</div>
-            <div class="spot-feat-title">Meeting Prep</div>
+            <div class="spot-feat-icon"><span aria-hidden="true">📋</span></div>
+            <h3 class="spot-feat-title">Meeting Prep</h3>
             <div class="spot-feat-desc">What the customer will raise, what you promised last time, and a draft agenda before every call.</div>
           </div>
           <div class="spot-feat fade-up">
-            <div class="spot-feat-icon">🎯</div>
-            <div class="spot-feat-title">Renewal Radar</div>
+            <div class="spot-feat-icon"><span aria-hidden="true">🎯</span></div>
+            <h3 class="spot-feat-title">Renewal Radar</h3>
             <div class="spot-feat-desc">Know which renewals are at risk months before the conversation.</div>
           </div>
         </div>
@@ -1113,14 +1159,15 @@
         <div class="spot-btns">
           <a href="https://cs-agent.app" class="btn btn-ghost" target="_blank" rel="noopener">
             See how it works
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </div>
 
       <!-- RIGHT — dashboard mockup -->
       <div>
-        <div class="dash">
+        <div class="dash" role="img" aria-label="Example CS Agent daily briefing showing prioritized account alerts">
           <div class="dash-bar">
             <div class="win-dots">
               <div class="win-dot wd-r"></div>
@@ -1196,12 +1243,14 @@
 
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeNmrzEwpEqVXRHYNqq27C2w_t7Ji2bZgPlwDgf-ppgDfedA/viewform" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
         Join the CS Agent waitlist
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="sr-only"> (opens in new tab)</span>
       </a>
       <p class="wl-note" style="margin-top:8px;">Questions? Reach us at <a href="mailto:hello@alwaison.com" style="color:var(--text-2);text-decoration:underline;">hello@alwaison.com</a></p>
     </div>
   </div>
 </section>
+</main>
 
 
 <!-- ============================================================
@@ -1215,7 +1264,7 @@
       <div>
         <div class="footer-logo">
           <div class="footer-mark">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
               <circle cx="6.5" cy="6.5" r="2.4" fill="white"/>
               <circle cx="6.5" cy="1.5"  r="1.2" fill="white" opacity="0.5"/>
               <circle cx="11.5" cy="6.5" r="1.2" fill="white" opacity="0.5"/>
@@ -1233,7 +1282,7 @@
       <div>
         <div class="fc-title">Products</div>
         <ul class="fc-links">
-          <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent ↗</a></li>
+          <li><a href="https://cs-agent.app" target="_blank" rel="noopener">CS Agent <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new tab)</span></a></li>
           <li><span>Sales Agent</span></li>
           <li><span>Renewals Agent</span></li>
           <li><span>Administrative Suite</span></li>
@@ -1260,8 +1309,8 @@
     <div class="footer-bottom">
       <span>© 2026 Alwaison, Inc. All rights reserved.</span>
       <div class="footer-legal">
-        <a href="https://cs-agent.app/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
-        <a href="https://cs-agent.app/terms" target="_blank" rel="noopener noreferrer">Terms</a>
+        <a href="https://cs-agent.app/privacy" target="_blank" rel="noopener noreferrer">Privacy<span class="sr-only"> (opens in new tab)</span></a>
+        <a href="https://cs-agent.app/terms" target="_blank" rel="noopener noreferrer">Terms<span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
 
